@@ -7,6 +7,8 @@
 #include "unrealEnums.h"
 #include "unrealFunctions.h"
 
+#define UE5 1
+
 #define QUICK_OFFSET(type, offset) (*(type*)((uintptr_t)this + offset))
 
 #define DECLARE_STATIC_CLASS(PATH) \
@@ -204,7 +206,7 @@ public:
 			auto Obj = GetObjectByIndex(i);
 
 			if (!Obj) continue;
-			wprintf(L"Name: %s\n", Obj->GetName().data());
+			//wprintf(L"Name: %s\n", Obj->GetName().data());
 			if (Obj->GetName() == ObjectName)
 				return (T*)Obj;
 		}
@@ -323,8 +325,9 @@ public:
 			FField* Field;
 			UObject* Object;
 		}Container;
-
+#if UE5 == 0
 		bool bIsUObject;
+#endif
 	};
 
 private:

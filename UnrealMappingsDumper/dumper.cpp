@@ -232,7 +232,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 			Object->Class() == UScriptStruct::StaticClass())
 			{
 				auto Struct = static_cast<UStruct*>(Object);
-
+				wprintf(L".");
 				Structs.push_back(Struct);
 
 				NameMap.insert_or_assign(Struct->GetFName(), 0);

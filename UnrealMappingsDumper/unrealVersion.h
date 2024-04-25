@@ -76,7 +76,7 @@ public:
 			UStruct::SuperOffset = UStructImpl::SuperOffset;
 			UStruct::ChildPropertiesOffset = UStructImpl::ChildPropertiesOffset;
 		}
-
+		UE_LOG("Dumper Initialized");
 		return true;
 	}
 };
@@ -164,4 +164,20 @@ struct Version_Unreal532 : UnrealVersionBase
 	static constexpr bool HasOptimizedFName = false;
 	static constexpr int FArrayPropertyOffset = 0x8;
 	static constexpr int FSetPropertyOffset = 0x0;
+
+	struct Offsets
+	{
+		struct UObject
+		{
+			static constexpr int NameOffset = 0x18;
+			static constexpr int ClassOffset = 0x10;
+			static constexpr int OuterOffset = 0x20;
+		};
+
+		struct UStruct
+		{
+			static constexpr int SuperOffset = 0x40;
+			static constexpr int ChildPropertiesOffset = 0x50;
+		};
+	};
 };

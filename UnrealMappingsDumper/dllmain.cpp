@@ -17,7 +17,7 @@ void WINAPI Main(HMODULE Module)
 	UE_LOG("Unreal Mappings Dumper injected, waiting for engine initialization...");
 
 	// sleep for 10 seconds wait engine intialization
-	std::this_thread::sleep_for(std::chrono::seconds(10));
+	std::this_thread::sleep_for(std::chrono::seconds(3));
 
 	if (!App::Init())
 	{
@@ -32,7 +32,7 @@ void WINAPI Main(HMODULE Module)
 
 	auto End = std::chrono::steady_clock::now();
 
-	UE_LOG("Successfully generated mappings file in %.02f ms", (End - Start).count() / 1000000.);
+	UE_LOG("\nSuccessfully generated mappings file in %.02f ms", (End - Start).count() / 1000000.);
 
 	FreeLibraryAndExitThread(Module, NULL);
 }
