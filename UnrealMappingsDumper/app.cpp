@@ -55,6 +55,11 @@ static bool InitEngine(GameInstance& Game)
 		return IUnrealVersion::InitTypes<Version_FortniteLatest>();
 	}
 
+	if(Game.Version >= 5.0)
+	{
+		return IUnrealVersion::InitTypes<Version_Unreal532>();
+	}
+	
 	return IUnrealVersion::InitTypes<UnrealVersionBase>();
 }
 

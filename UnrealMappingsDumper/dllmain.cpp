@@ -14,7 +14,10 @@ void WINAPI Main(HMODULE Module)
 		freopen_s(&f, "CONOUT$", "w", stdout);
 	}
 
-	UE_LOG("Unreal Mappings Dumper created by OutTheShade");
+	UE_LOG("Unreal Mappings Dumper injected, waiting for engine initialization...");
+
+	// sleep for 10 seconds wait engine intialization
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 
 	if (!App::Init())
 	{

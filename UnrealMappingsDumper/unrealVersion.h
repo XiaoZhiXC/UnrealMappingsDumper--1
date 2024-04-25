@@ -150,3 +150,9 @@ struct Version_FortniteLatest : Version_OptimizedFName
 		};
 	}
 };
+
+struct Version_Unreal532 : UnrealVersionBase
+{
+	static constexpr int FPropertySize = 0x70;
+	static constexpr bool HasOptimizedFName = false;
+};

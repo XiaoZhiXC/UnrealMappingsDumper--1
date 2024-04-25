@@ -194,6 +194,13 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 			break;
 		}
 		case EPropertyType::SetProperty:
+		{
+			auto Inner = static_cast<FSetProperty*>(Prop)->GetInner();
+			auto InnerType = GetPropertyType(Inner);
+			WritePropertyWrapper(Inner, InnerType);
+
+			break;
+		}
 		case EPropertyType::ArrayProperty:
 		{
 			auto Inner = static_cast<FArrayProperty*>(Prop)->GetInner();

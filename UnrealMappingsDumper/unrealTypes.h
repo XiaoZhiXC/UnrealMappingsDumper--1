@@ -429,6 +429,18 @@ public:
 	}
 };
 
+class FSetProperty : public FProperty
+{
+	FProperty* Inner;
+
+public:
+
+	FORCEINLINE FProperty* GetInner()
+	{
+		return QUICK_OFFSET(FProperty*, FPropertySize);
+	}
+};
+
 class FArrayProperty : public FProperty
 {
 	enum class EArrayPropertyFlags
@@ -437,14 +449,14 @@ class FArrayProperty : public FProperty
 		UsesMemoryImageAllocator
 	};
 
+	EArrayPropertyFlags ArrayFlags; // align to 8
 	FProperty* Inner;
-	EArrayPropertyFlags ArrayFlags;
 
 public:
 
 	FORCEINLINE FProperty* GetInner()
 	{
-		return QUICK_OFFSET(FProperty*, FPropertySize);
+		return QUICK_OFFSET(FProperty*, FPropertySize + 8);
 	}
 };
 
