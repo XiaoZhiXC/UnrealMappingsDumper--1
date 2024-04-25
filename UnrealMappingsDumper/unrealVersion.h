@@ -21,6 +21,7 @@ public:
 	{
 		uintptr_t GObjectsAddy = 0;
 
+		UE_LOG("Detecting GObject...");
 		for (auto Scan : Version::GetGObjectsPatterns())
 		{
 			GObjectsAddy = Scan->TryFind();
@@ -38,7 +39,7 @@ public:
 		ObjObjects::SetInstance(GObjectsAddy);
 
 		uintptr_t FNameStringAddy = 0;
-
+		UE_LOG("Detecting FName2String...");
 		for (auto Scan : Version::GetFNameStringPatterns())
 		{
 			FNameStringAddy = Scan->TryFind();
@@ -61,7 +62,10 @@ public:
 		UObject::NameOffset = UObjectImpl::NameOffset;
 		FName::IsOptimized = Version::HasOptimizedFName;
 		FProperty::FPropertySize = Version::FPropertySize;
+		FArrayProperty::Offset = Version::FArrayPropertyOffset;
+		FSetProperty::Offset = Version::FSetPropertyOffset;
 
+		UE_LOG("Fetching Offsets...");
 		if (!TryDynamicOffsets())
 		{
 			UE_LOG("Could not grab dynamic offsets. Just gonna use the hardcoded ones.");
@@ -87,6 +91,9 @@ struct UnrealVersionBase : IUnrealVersion
 {
 	static constexpr int FPropertySize = 0x78;
 	static constexpr bool HasOptimizedFName = false;
+
+	static constexpr int FArrayPropertyOffset = 0x0;
+	static constexpr int FSetPropertyOffset = 0x0;
 
 	struct Offsets
 	{
@@ -155,4 +162,6 @@ struct Version_Unreal532 : UnrealVersionBase
 {
 	static constexpr int FPropertySize = 0x70;
 	static constexpr bool HasOptimizedFName = false;
+	static constexpr int FArrayPropertyOffset = 0x8;
+	static constexpr int FSetPropertyOffset = 0x0;
 };

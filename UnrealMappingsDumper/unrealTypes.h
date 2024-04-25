@@ -204,7 +204,7 @@ public:
 			auto Obj = GetObjectByIndex(i);
 
 			if (!Obj) continue;
-
+			wprintf(L"Name: %s\n", Obj->GetName().data());
 			if (Obj->GetName() == ObjectName)
 				return (T*)Obj;
 		}
@@ -435,9 +435,11 @@ class FSetProperty : public FProperty
 
 public:
 
+	static inline int Offset = 0;
+	
 	FORCEINLINE FProperty* GetInner()
 	{
-		return QUICK_OFFSET(FProperty*, FPropertySize);
+		return QUICK_OFFSET(FProperty*, FPropertySize + Offset);
 	}
 };
 
@@ -453,10 +455,11 @@ class FArrayProperty : public FProperty
 	FProperty* Inner;
 
 public:
-
+	static inline int Offset = 0;
+	
 	FORCEINLINE FProperty* GetInner()
 	{
-		return QUICK_OFFSET(FProperty*, FPropertySize + 8);
+		return QUICK_OFFSET(FProperty*, FPropertySize + Offset);
 	}
 };
 
