@@ -17,7 +17,7 @@ void WINAPI Main(HMODULE Module)
 	UE_LOG("Unreal Mappings Dumper injected, waiting for engine initialization...");
 
 	// sleep for 10 seconds wait engine intialization
-	std::this_thread::sleep_for(std::chrono::seconds(3));
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 
 	if (!App::Init())
 	{

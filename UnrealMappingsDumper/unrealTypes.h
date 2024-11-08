@@ -1,13 +1,13 @@
 #pragma once
 
+#define UE5 0 // This will change the FProperty Base Memory Layout, if UE5, define to 1
+
 #include <string>
 #include <winnt.h>
 #include <functional>
 
 #include "unrealEnums.h"
 #include "unrealFunctions.h"
-
-#define UE5 1
 
 #define QUICK_OFFSET(type, offset) (*(type*)((uintptr_t)this + offset))
 
@@ -206,7 +206,7 @@ public:
 			auto Obj = GetObjectByIndex(i);
 
 			if (!Obj) continue;
-			//wprintf(L"Name: %s\n", Obj->GetName().data());
+			wprintf(L"Name: %s\n", Obj->GetName().data());
 			if (Obj->GetName() == ObjectName)
 				return (T*)Obj;
 		}

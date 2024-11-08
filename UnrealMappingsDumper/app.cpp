@@ -55,11 +55,20 @@ static bool InitEngine(GameInstance& Game)
 		return IUnrealVersion::InitTypes<Version_FortniteLatest>();
 	}
 
-	if(Game.Version >= 5.0)
+	if (Game.GamePath.filename() == "b1-Win64-Shipping.exe"
+		and Game.Version >= 5.0)
 	{
-		return IUnrealVersion::InitTypes<Version_Unreal532>();
+		wprintf(L"Use UE4 UnrealVersion for b1... \n");
+		return IUnrealVersion::InitTypes<UnrealVersionBase>();
 	}
 	
+
+	if(Game.Version >= 5.0)
+	{
+		wprintf(L"Use UE5 UnrealVersion... \n");
+		return IUnrealVersion::InitTypes<Version_Unreal532>();
+	}
+	wprintf(L"Use UE4 UnrealVersion... \n");
 	return IUnrealVersion::InitTypes<UnrealVersionBase>();
 }
 

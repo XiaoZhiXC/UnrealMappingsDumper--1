@@ -232,7 +232,10 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 			Object->Class() == UScriptStruct::StaticClass())
 			{
 				auto Struct = static_cast<UStruct*>(Object);
-				wprintf(L".");
+				wprintf(L"Struct: ");
+				wprintf(Struct->GetName().data());
+				wprintf(L"\n");
+				
 				Structs.push_back(Struct);
 
 				NameMap.insert_or_assign(Struct->GetFName(), 0);
@@ -252,6 +255,9 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 			{
 				auto Enum = static_cast<UEnum*>(Object);
 				Enums.push_back(Enum);
+				wprintf(L"Enum: ");
+				wprintf(Enum->GetName().data());
+				wprintf(L"\n");
 
 				NameMap.insert_or_assign(Enum->GetFName(), 0);
 
@@ -264,6 +270,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 			}
 		});
 
+	wprintf(L"Writing Names [%d] \n", NameMap.size());
 	Buffer.Write<int>(NameMap.size());
 
 	int CurrentNameIndex = 0;
@@ -287,6 +294,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 		CurrentNameIndex++;
 	}
 
+	wprintf(L"Writing Enums [%d] \n", Enums.size());
 	Buffer.Write<uint32_t>(Enums.size());
 
 	for (auto Enum : Enums)
@@ -294,7 +302,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 		Buffer.Write(NameMap[Enum->GetFName()]);
 
 		auto& EnumNames = Enum->Names();
-		Buffer.Write<uint8_t>(EnumNames.Num());
+		Buffer.Write<int>(EnumNames.Num()); // some game may have more than 255 enum values
 
 		for (size_t i = 0; i < EnumNames.Num(); i++)
 		{
@@ -302,6 +310,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 		}
 	}
 
+	wprintf(L"Writing Structs [%d] \n", Structs.size());
 	Buffer.Write<uint32_t>(Structs.size());
 
 	for (auto Struct : Structs)
@@ -355,7 +364,7 @@ void Dumper::Run(ECompressionMethod CompressionMethod)
 		memcpy(UsmapData.data(), UncompressedStream.data(), UsmapData.size());
 	}
 	}
-
+	
 	auto FileOutput = FileWriter("Mappings.usmap");
 
 	FileOutput.Write<uint16_t>(0x30C4); //magic
